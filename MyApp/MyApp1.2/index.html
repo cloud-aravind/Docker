@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker MyApp</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: white; /* Docker Blue */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background: white;
+        padding: 30px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+    }
+    .logo {
+        width: 200px;
+        margin-bottom: 15px;
+    }
+    h1 {
+        color: #0db7ed; /* Docker Blue */
+    }
+    input, button {
+        width: 100%; /* Ensure both inputs and button are the same width */
+        box-sizing: border-box; /* Include padding and border in width calculation */
+    }
+
+    input {
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: #0073ec; /* Darker Docker Blue */
+        color: white;
+        padding: 12px; /* Same padding as inputs */
+        margin: 10px 0; /* Same margin as inputs */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #005bb5;
+    }
+    p {
+        font-size: 16px;
+        color: #333;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" class="logo" alt="Docker Logo">
+        <h1>MyApp</h1>
+        <form id="userForm">
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <button type="submit">Submit</button>
+        </form>
+        <p id="responseMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById("userForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent page reload
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+
+            const response = await fetch("http://localhost:3000/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email })
+            });
+
+            const result = await response.json();
+            document.getElementById("responseMessage").innerText = result.message;
+        });
+    </script>
+</body>
+</html>
